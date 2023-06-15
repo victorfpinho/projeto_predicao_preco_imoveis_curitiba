@@ -96,7 +96,9 @@ esse_ano = data.year
 
 col1, col2, col3 = st.columns([1,3,1])
 
-col2.title("Descubra quanto vale aproximadamente seu Imóvel em Curitiba")
+col2.title("Descubra quanto vale aproximadamente seu Apartamento em Curitiba")
+
+col2.write("Preencha os campos abaixo:")
 
 bairro = col2.selectbox(label="Selecione o bairro", options=bairros.sort_values(by='bairros'))
 
@@ -129,7 +131,7 @@ if col2.button(label='Calcular'):
 
     vector = vector1.transform(serie)
     m2 = model1.predict(vector)
-
+    
     preco = round(int(m2[0]) * area, -3)
 
     preco = f'R$ {preco:_.2f}'
