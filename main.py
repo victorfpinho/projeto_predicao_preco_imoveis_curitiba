@@ -102,7 +102,7 @@ bairro = col2.selectbox(label="Selecione o bairro", options=bairros.sort_values(
 
 st.write("\n\n")
 area = int(col2.slider(label="Selecione o tamanho da área útil", min_value=round(int(area_util.values[0][0]), -1),
-                 max_value=round(int(area_util.values[1][0]), -1), step=2))
+                 max_value=int(230), step=2))
 st.write("\n\n")
 quarto = col2.selectbox(label="Selecione a quantidade de quartos", options=quartos.sort_values(by='n_quartos'))
 st.write("\n\n")
