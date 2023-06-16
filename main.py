@@ -1,11 +1,12 @@
+#Importações
 import pickle
 import pandas as pd
 import streamlit as st
-
 from datetime import date
 import datetime
 
 
+#Configuração do estilo da página
 css = '''
 <style>
 [data-testid="stAppViewContainer"] {
@@ -32,7 +33,7 @@ img {
 }
 
 h1 {
-    font-size: 30px;
+    font-size: 20px;
     text-align: center;
 }
 </style>
@@ -82,7 +83,7 @@ def area_padrao(i):
     return j
 
 #--------------------------------------------------------------
-
+#Importando dados de valores máximos e mínimos de entradas
 bairros = pd.read_json(f'metadata/bairros_curitiba_semestral.json')
 area_util = pd.read_json(f'metadata/area_curitiba_semestral.json')
 quartos = pd.read_json(f'metadata/quartos_curitiba_semestral.json')
@@ -93,10 +94,12 @@ data = datetime.datetime.strptime(str(date.today()), "%Y-%m-%d")
 esse_ano = data.year
 
 
-
+#Configurando Input Widgets
 col1, col2, col3 = st.columns([1,3,1])
 
 col2.title("Descubra quanto vale aproximadamente seu Apartamento em Curitiba")
+
+col2.title("")
 
 col2.write("Preencha os campos abaixo:")
 
@@ -108,7 +111,7 @@ area = int(col2.slider(label="Selecione o tamanho da área útil", min_value=rou
 st.write("\n\n")
 quarto = col2.selectbox(label="Selecione a quantidade de quartos", options=quartos.sort_values(by='n_quartos'))
 st.write("\n\n")
-banheiro = col2.selectbox(label="Selecione a quantidade de banheiros - Incluíndo o(s) da(s) suíte(s)", options=banheiros.sort_values(by='n_banheiros'))
+banheiro = col2.selectbox(label="Selecione a quantidade de banheiros - Incluindo o(s) da(s) suíte(s)", options=banheiros.sort_values(by='n_banheiros'))
 st.write("\n\n")
 suite = col2.selectbox(label="Selecione a quantidade de suítes", options=suites.sort_values(by='n_suites'))
 st.write("\n\n")
@@ -118,6 +121,7 @@ st.write("\n\n")
 
 ano_construcao = col2.selectbox(label='Selecione o ano de construção do imóvel', options=range(esse_ano, 1959, -1))
 
+#Configurando botão e função de predição
 if col2.button(label='Calcular'):
     padrao = area_padrao(area)
 
@@ -137,6 +141,7 @@ if col2.button(label='Calcular'):
     preco = f'R$ {preco:_.2f}'
     preco = preco.replace('.',',').replace('_','.')
 
+    #Texto informativo ao usuário
     col2.write("\n\n\n\n\n")
     col2.title(f"{preco}\n\n\n Este valor é uma opinião de preço baseado na média de valores dos imóveis por bairro e características, podendo variar de acordo com as condições do imóvel, localização, mobília, etc. Para uma avaliação mais precisa de seu imóvel procure um corretor avaliador credenciado ao CRECI de sua confiança.")
 
